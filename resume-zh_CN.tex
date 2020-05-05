@@ -1,0 +1,85 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8 Unicode
+% !Mode:: "TeX:UTF-8"
+
+\documentclass{resume}
+\usepackage{zh_CN-Adobefonts_external} % Simplified Chinese Support using external fonts (./fonts/zh_CN-Adobe/)
+% \usepackage{NotoSansSC_external}
+% \usepackage{NotoSerifCJKsc_external}
+% \usepackage{zh_CN-Adobefonts_internal} % Simplified Chinese Support using system fonts
+\usepackage{linespacing_fix} % disable extra space before next section
+\usepackage{cite}
+
+\begin{document}
+\pagenumbering{gobble} % suppress displaying page number
+
+\name{罗周杨}
+
+\basicInfo{
+  \email{zhouyang.luo@gmail.com} \textperiodcentered\ 
+  \phone{(+86) 133-8153-6323} \textperiodcentered\ 
+  \github{https://github.com/luozhouyang}}
+ 
+\section{\faGraduationCap\  教育背景}
+\datedsubsection{\textbf{上海大学}}{2013.09 -- 2017.07}
+\textit{本科，学士}\ 通信学院电子信息工程
+
+\section{\faUsers\ 工作经历}
+\datedsubsection{\textbf{e成科技} |  \href{https://ifchange.com}{https://ifchange.com} \hspace{10mm} NLP算法工程师}{2018.12 -- 2020.06} 
+项目：JD和CV的文本相关性
+\begin{itemize}
+  \item 使用千万级别的JD和CV的文本内容，经过分句和筛选处理，整理得到预训练数据。把BERT预训练的NSP任务替换成JD和CV是否匹配的二分类任务。然后进行预训练，匹配任务的训练集准确率达到0.94，测试集准确率0.92，比之前线上的效果提升3个点左右。
+\end{itemize}
+
+项目：JD和CV的关键词抽取
+\begin{itemize}
+  \item 从上述预训练BERT模型中，抽取出Attention权重作为词语的权重，特殊Token的权重不小，并且不同层的Attention权重差别较大。对比之后选择最后一层，并且去除特殊Token。
+  \item 使用基于Sentence Embedding的EmbedRank模型进行关键词抽取，线性组合两者权重，对比之前线上效果，无意义词语显著减少，重要词语的权重区分更明显。
+\end{itemize}
+
+项目：细分领域的职能识别
+\begin{itemize}
+  \item 在上述预训练的BERT模型之上，构建NER模型进行微调。解决大部分细分领域（通用的NER覆盖不到）的职能识别不准的问题，显著提高了CV的召回，以及JD和CV之间的推荐度。
+\end{itemize}
+
+项目：JD和CV的推荐工程
+\begin{itemize}
+  \item 优化推荐工程性能，并行请求ES和处理CV，响应时间提升5倍。优化所涉及的基础算法服务。
+\end{itemize}
+
+\datedsubsection{\textbf{51job}  |  \href{https://51job.com}{https://51job.com} \hspace{20mm} 软件开发工程师}{2017.07 -- 2018.12}
+\begin{onehalfspacing}
+项目：名片地址文本纠错
+\begin{itemize}
+  \item 为了解决jieba对道路等文本分词效果不佳的问题，实现BiLSTM + CRF的神经网络分词模型，对于地址文本的分词效果提升明显。\href{https://github.com/luozhouyang/deepseg}{https://github.com/luozhouyang/deepseg}
+  \item 使用基于RNN的Seq2Seq + Attention的生成式模型来实现纠错，测试集准确率达到0.86。使用Tensorflow Serving + Docker部署模型，平均推断时间50ms（GPU）。
+\end{itemize}
+\end{onehalfspacing}
+
+
+\section{\faCode\ 开源项目}
+\begin{itemize}[parsep=0.5ex]
+  \item \href{https://github.com/luozhouyang/python-string-similarity}{luozhouyang/python-string-similarity}：多种字符串相似度的衡量算法
+  \item \href{https://github.com/luozhouyang/transformers-keras}{luozhouyang/transformers-keras}：基于Transformer的多个模型实现
+ \item \href{https://github.com/luozhouyang/embedrank}{luozhouyang/embedrank}：基于Sentence Embedding的无监督关键词抽取
+\end{itemize}
+
+\section{\faCogs\ 个人技能}
+% increase linespacing [parsep=0.5ex]
+\begin{itemize}[parsep=0.5ex]
+  \item 编程语言：3年Python使用经验，作为脚本和构建深度学习模型，有使用Flask、FastAPI构建Web服务的经验；4年Java使用经验，熟悉多线程和常见的设计模式，有Spring Boot构建Web服务经验；2年Android应用开发经验（大学期间，Java语言）
+ \item 工具相关：常年在Linux环境下工作，熟悉Docker使用，熟悉Git及其协作
+\end{itemize}
+
+\section{\faInfo\ 其他}
+% increase linespacing [parsep=0.5ex]
+\begin{itemize}[parsep=0.5ex]
+  \item GitHub: \href{https://github.com/luozhouyang}{https://github.com/luozhouyang}
+  \item 博客\hspace{4mm}: \href{https://luozhouyang.github.io}{https://luozhouyang.github.io}
+\end{itemize}
+
+%% Reference
+%\newpage
+%\bibliographystyle{IEEETran}
+%\bibliography{mycite}
+\end{document}
