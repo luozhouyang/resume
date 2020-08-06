@@ -24,59 +24,84 @@
 \datedsubsection{\textbf{上海大学}}{2013.09 -- 2017.07}
 \textit{本科，学士}\ 通信学院电子信息工程
 
+\section{\faCogs\ 个人技能}
+% increase linespacing [parsep=0.5ex]
+\begin{itemize}[parsep=0.5ex]
+  \item 熟悉NLP相关技术，包括不限于TF-IDF、TextRank、Word2Vec、ELMo、Doc2Vec、Transformer、BERT等算法或模型，熟悉Seq2Seq架构和Attention机制，熟悉TensorFlow和Keras框架
+ \item 熟悉Java和Python，熟悉常用设计模式，熟悉Spring Boot、Flask、FastAPI等Web框架，有一定的Hadoop、Hive、PySpark使用经验
+ \item 熟悉Linux环境，熟悉Docker、Git、Vim、Gradle等工具的使用
+\end{itemize}
+
+\section{\faCode\ 开源项目}
+
+\datedsubsection{\textbf{transformers-keras} }{\href{https://github.com/luozhouyang/transformers-keras}{https://github.com/luozhouyang/transformers-keras}} 
+\begin{itemize}
+ \item 基于Transformer的多个模型实现，包括Transformer、BERT和ALBERT。
+ \item 使用tf.data API构建数据输入管道，实现模型的导出部署，实现了加载预训练模型功能。
+\end{itemize}
+
+\datedsubsection{\textbf{python-string-similarity}  400+ star }{\href{https://github.com/luozhouyang/python-string-similarity}{https://github.com/luozhouyang/python-string-similarity}} 
+\begin{itemize}
+ \item 实现多种字符串相似度的计算方法，包括最长公共子序列、Jaccard距离、编辑距离等。
+\end{itemize}
+
 \section{\faUsers\ 工作经历}
-\datedsubsection{\textbf{e成科技} |  \href{https://ifchange.com}{https://ifchange.com} \hspace{10mm} NLP算法工程师}{2018.12 -- 2020.06} 
-项目：JD和CV的文本相关性
+\datedsubsection{\textbf{e成科技} |  \href{https://ifchange.com}{https://ifchange.com} \hspace{10mm} NLP算法工程师}{2018.12 -- 至今} 
+
+项目：搜索之Query解析
 \begin{itemize}
-  \item 使用千万级别的JD和CV的文本内容，经过分句和筛选处理，整理得到预训练数据。把BERT预训练的NSP任务替换成JD和CV是否匹配的二分类任务。然后进行预训练，匹配任务的训练集准确率达到0.94，测试集准确率0.92，比之前线上的效果提升3个点左右。
+  \item 将用户输入的Query进行解析，包括Query纠错、意图识别、Query Weighting、Query扩展等模块。
+ \item 使用ngram语言模型，通过语言复杂度(PPL)进行错误检测，使用同音字、同型字和混淆集等词典的方式进行纠错。
+ \item 通过NER接口得到Query中的职能、行业、学历等实体，通过策略计算得到Query不同Term的权重，得到多个意图，然后进行整合得到最终的主意图。
+ \item 通过规则和Embedding相似度的方式，对主意图的行业和职能等实体进行扩展，得到扩展意图。基于Embedding相似度的扩展使用该相似度作为扩展意图的权重。
 \end{itemize}
 
-项目：JD和CV的关键词抽取
+项目：文本相关性
 \begin{itemize}
-  \item 从上述预训练BERT模型中，抽取出Attention权重作为词语的权重，特殊Token的权重不小，并且不同层的Attention权重差别较大。对比之后选择最后一层，并且去除特殊Token。
-  \item 使用基于Sentence Embedding的EmbedRank模型进行关键词抽取，线性组合两者权重，对比之前线上效果，无意义词语显著减少，重要词语的权重区分更明显。
+  \item 基于BERT模型计算JD和CV之间的文本相关性，以提升推荐的效果。
+  \item 使用自己的千万级别的JD和CV的文本内容整理得到预训练数据。通过规则删除一些不重要的句子以保证序列长度不超过512，中文使用按字分词以减小词典。
+  \item 保持BERT预训练的MLM任务不变，NSP任务替换成JD和CV是否匹配的二分类任务。二分类任务上验证集准确率为0.90、F1为0.92。二分类任务的得分直接作为文本相关性得分。
 \end{itemize}
 
-项目：细分领域的职能识别
+项目：搜索、推荐工程的迭代和优化
 \begin{itemize}
-  \item 在上述预训练的BERT模型之上，构建NER模型进行微调。解决大部分细分领域（通用的NER覆盖不到）的职能识别不准的问题，显著提高了CV的召回，以及JD和CV之间的推荐度。
+  \item 负责相似CV的推荐业务，完成并优化Elastic Search的Query DSL构建，完成并优化CV之间的特征提取、匹配分数计算和候选集排序。
+  \item 优化推荐工程性能，精简Elastic Search的Query构建以减小候选集和提升查询速度，同时分片并行请求耗时的外部服务调用、并行计算候选集的特征和匹配得分。服务的平均响应时间提升3倍。
 \end{itemize}
 
-项目：JD和CV的推荐工程
+项目：关键词抽取
 \begin{itemize}
-  \item 优化推荐工程性能，并行请求ES和处理CV，响应时间提升5倍。优化所涉及的基础算法服务。
+ \item TF-IDF作为关键词抽取的Baseline，但是存在词语权重区分不够明显的问题。
+  \item 从预训练BERT模型中，抽取出字的Attention权重矩阵，按列合并然后归一化，获得词语的权重。
+  \item 然后使用基于Sentence Embedding的EmbedRank模型进行得到关键词及其权重。
+  \item 线性加权三种权重得到最终的关键词及其权重。
 \end{itemize}
 
-\datedsubsection{\textbf{51job}  |  \href{https://51job.com}{https://51job.com} \hspace{20mm} 软件开发工程师}{2017.07 -- 2018.12}
+\datedsubsection{\textbf{51job}  |  \href{https://51job.com}{https://51job.com} \hspace{20mm} NLP算法工程师}{2017.07 -- 2018.12}
 \begin{onehalfspacing}
-项目：名片地址文本纠错
+ 项目：文本分词
+ \begin{itemize}
+  \item 尝试使用jieba分词，发现对于道路文本分词效果较差。使用规则从预料中整理得到一批词典，使用jieba + 自定义词典 的方式有效提升了分词的准确性。但词典之外的样本分词效果依然不佳。
+  \item 为了充分利用上下文来达到更好的分词效果，实现基于BiLSTM + CRF的神经网络分词模型，通过jieba + 词典的方式构建大部分训练样本，人工标注少量无法通过前者正确分词的样本，最终得到大约300万的训练数据，最终的分词效果提升非常明显，F1达到0.95。
+  \item 代码开源 \href{https://github.com/luozhouyang/deepseg}{https://github.com/luozhouyang/deepseg}
+\end{itemize}
+
+项目：地址文本纠错
 \begin{itemize}
-  \item 为了解决jieba对道路等文本分词效果不佳的问题，实现BiLSTM + CRF的神经网络分词模型，对于地址文本的分词效果提升明显。\href{https://github.com/luozhouyang/deepseg}{https://github.com/luozhouyang/deepseg}
-  \item 使用基于RNN的Seq2Seq + Attention的生成式模型来实现纠错，测试集准确率达到0.86。使用Tensorflow Serving + Docker部署模型，平均推断时间50ms（GPU）。
+  \item 使用字符级别的ngram语言模型来进行错误检测，对于每个地址文本，计算2-gram、3-gram的语言困惑度(PPL)，对于高于平均值的ngram标记为疑似错误的token。PPL得分计算通过使用自己数据集训练的KenLM模型得到。
+  \item 使用同音字、同形字和混淆集词典，替换疑似错误的token，计算文本困惑度(PPL)，选择PPL最低的序列作为纠正文本。
+  \item 为了让纠错过程能考虑更长的上下文信息，使用基于RNN的Seq2Seq + Attention的生成式模型来实现纠错，使用300万左右的数据训练模型，正负样本比例大约5 : 6，模型在测试集准确率(Accuracy)达到0.86。
+  \item 模型使用Tensorflow Serving + Docker的形式部署，使用Beam Search方式解码，平均推断时间50ms（GPU）。
 \end{itemize}
 \end{onehalfspacing}
 
 
-\section{\faCode\ 开源项目}
-\begin{itemize}[parsep=0.5ex]
-  \item \href{https://github.com/luozhouyang/python-string-similarity}{luozhouyang/python-string-similarity}：多种字符串相似度的衡量算法
-  \item \href{https://github.com/luozhouyang/transformers-keras}{luozhouyang/transformers-keras}：基于Transformer的多个模型实现
- \item \href{https://github.com/luozhouyang/embedrank}{luozhouyang/embedrank}：基于Sentence Embedding的无监督关键词抽取
-\end{itemize}
 
-\section{\faCogs\ 个人技能}
+%\section{\faInfo\ 其他}
 % increase linespacing [parsep=0.5ex]
-\begin{itemize}[parsep=0.5ex]
-  \item 编程语言：3年Python使用经验，作为脚本和构建深度学习模型，有使用Flask、FastAPI构建Web服务的经验；4年Java使用经验，熟悉多线程和常见的设计模式，有Spring Boot构建Web服务经验；2年Android应用开发经验（大学期间，Java语言）
- \item 工具相关：常年在Linux环境下工作，熟悉Docker使用，熟悉Git及其协作
-\end{itemize}
-
-\section{\faInfo\ 其他}
-% increase linespacing [parsep=0.5ex]
-\begin{itemize}[parsep=0.5ex]
-  \item GitHub: \href{https://github.com/luozhouyang}{https://github.com/luozhouyang}
-  \item 博客\hspace{4mm}: \href{https://luozhouyang.github.io}{https://luozhouyang.github.io}
-\end{itemize}
+%\begin{itemize}[parsep=0.5ex]
+%  \item 博客\hspace{4mm}: \href{https://luozhouyang.github.io}{https://luozhouyang.github.io}
+%\end{itemize}
 
 %% Reference
 %\newpage
